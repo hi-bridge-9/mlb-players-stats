@@ -2,20 +2,17 @@ package function
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
-)
 
-var (
-	bucket = os.Getenv("GCS_BUCKET_NAME")
-	object = os.Getenv("GCS_OBJECT_NAME")
+	"github.com/line/line-bot-sdk-go/linebot"
 )
 
 
-func Function(w http.ResponseWriter, r *http.Request) {
-	bytes, err := downloadFileIntoMemory(ioutil.Discard, bucket, object)
+func FunctionTest(w http.ResponseWriter, r *http.Request) {
+	bytes, err := ioutil.ReadFile(".players_list.json")
 	if err != nil {
 		log.Fatalf("downloadFileIntoMemory: %w", err)
 	}
@@ -43,11 +40,28 @@ func Function(w http.ResponseWriter, r *http.Request) {
 	s := NewSender()
 	msg := s.MakeMessage(newsList)
 
-	if err := s.Send(msg); err != nil {
-		log.Fatalf("error in send message by line bot: %w", err)
-	}
+	// if err := s.SendTest(msg); err != nil {
+	// 	log.Fatalf("error in send message by line bot: %w", err)
+	// }
 
-	log.Println("Success")
+	log.Println(msg)
 
 }
 
+func (s *Sender) SendTest(msgStr string) error {
+	bot, err := linebot.New(
+		secret,
+		token)
+
+	if err != nil {
+		return fmt.Errorf("error in new line bot: %w", err)
+	}
+
+	msg := linebot.NewTextMessage(msgStr)
+	log.Println(msgStr)
+	if _, err := bot.BroadcastMessage(msg).Do(); err != nil {
+		return fmt.Errorf("error in send message by line bot: %w", err)
+	}
+
+	return nil
+}

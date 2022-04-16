@@ -9,6 +9,11 @@ import (
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
+var (
+	secret = os.Getenv("LINE_BOT_CHANNEL_SECRET")
+	token  = os.Getenv("LINE_BOT_CHANNEL_TOKEN")
+)
+
 type Sender struct{}
 
 func NewSender() *Sender {
@@ -78,8 +83,8 @@ func makePitchingSummary(p *Profile) (msg string) {
 
 func (s *Sender) Send(msgStr string) error {
 	bot, err := linebot.New(
-		os.Getenv("LINE_BOT_CHANNEL_SECRET"),
-		os.Getenv("LINE_BOT_CHANNEL_TOKEN"))
+		secret,
+		token)
 
 	if err != nil {
 		return fmt.Errorf("error in new line bot: %w", err)
@@ -93,3 +98,5 @@ func (s *Sender) Send(msgStr string) error {
 
 	return nil
 }
+
+
