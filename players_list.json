@@ -1,0 +1,50 @@
+[
+    {
+        "name": "大谷 翔平",
+        "url": "https://www.mlb.com/player/shohei-ohtani-660271",
+        "pitching": true,
+        "batting": true
+    },
+    {
+        "name": "ダルビッシュ 有",
+        "url": "https://www.mlb.com/player/yu-darvish-506433",
+        "pitching": true,
+        "batting": false
+    },
+    {
+        "name": "鈴木 誠也",
+        "url": "https://www.mlb.com/player/seiya-suzuki-673548",
+        "pitching": false,
+        "batting": true
+    },
+    {
+        "name": "筒香 嘉智",
+        "url": "https://www.mlb.com/player/yoshi-tsutsugo-660294",
+        "pitching": false,
+        "batting": true
+    },
+    {
+        "name": "菊池 雄星",
+        "url": "https://www.mlb.com/player/yusei-kikuchi-579328",
+        "pitching": true,
+        "batting": false
+    },
+    {
+        "name": "澤村 拓一",
+        "url": "https://www.mlb.com/player/hirokazu-sawamura-617228",
+        "pitching": true,
+        "batting": false
+    },
+    {
+        "name": "前田 健太",
+        "url": "https://www.mlb.com/es/player/kenta-maeda-628317",
+        "pitching": true,
+        "batting": false
+    },
+    {
+        "name": "有原 航平",
+        "url": "https://www.mlb.com/player/kohei-arihara-685503",
+        "pitching": true,
+        "batting": false
+    }
+]
