@@ -3,6 +3,7 @@ package function
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/line/line-bot-sdk-go/linebot"
@@ -80,6 +81,32 @@ func makePitchingSummary(p *Profile) (msg string) {
 		sum["G"], wl[0], wl[1], sum["ERA"])
 
 	return
+}
+
+func (s *Sender) MakeTitleCompetitorSummary(ts []*Title) (msg string) {
+	a := "-------- ア・リーグ --------\n"
+	n := "-------- ナ・リーグ --------\n"
+	for _, t := range ts {
+		if t.League == "ア・リーグ" {
+			a += SetData(t)
+		} else {
+			n += SetData(t)
+		}
+	}
+	msg = a + n
+	return msg
+}
+
+func SetData(t *Title) string {
+	msg := fmt.Sprintf("【%s】\n", t.Category)
+	for _, r := range t.Records {
+		rank, _ := strconv.Atoi(r.Rank)
+		if rank < 4 {
+			msg += fmt.Sprintf("%s. %s %s\n", r.Rank, r.Name, r.Stats)
+		}
+	}
+	msg += fmt.Sprintln(" ")
+	return msg
 }
 
 func (s *Sender) Send(msgStr string) error {

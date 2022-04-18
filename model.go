@@ -18,3 +18,17 @@ type Stats struct {
 	DailyResult map[string]string
 	Date        string
 }
+
+
+
+type Title struct {
+	League string
+	Category string
+	Records  []*Record
+}
+
+type Record struct {
+	Rank  string
+	Name  string
+	Stats string
+}
