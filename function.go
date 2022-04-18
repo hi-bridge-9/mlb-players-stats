@@ -35,9 +35,6 @@ func Function(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// if err := streamFileUpload(ioutil.Discard, bucket, object, psLatest); err != nil {
-	// 	log.Fatalf("streamFileUpload(%q): %v", object, err)
-	// }
 
 	s := NewSender()
 	msg := s.MakeMessage(newsList)
