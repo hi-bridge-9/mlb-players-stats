@@ -12,7 +12,7 @@ import (
 
 
 func FunctionTest(w http.ResponseWriter, r *http.Request) {
-	bytes, err := ioutil.ReadFile("../players_list.json")
+	bytes, err := ioutil.ReadFile("../data/players_list.json")
 	if err != nil {
 		log.Fatalf("downloadFileIntoMemory: %w", err)
 	}
