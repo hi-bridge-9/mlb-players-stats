@@ -13,7 +13,6 @@ var (
 	object = os.Getenv("GCS_OBJECT_NAME")
 )
 
-
 func Function(w http.ResponseWriter, r *http.Request) {
 	bytes, err := downloadFileIntoMemory(ioutil.Discard, bucket, object)
 	if err != nil {
@@ -50,4 +49,3 @@ func Function(w http.ResponseWriter, r *http.Request) {
 	log.Println("Success")
 
 }
-

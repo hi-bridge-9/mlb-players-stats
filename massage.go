@@ -2,7 +2,6 @@ package function
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"strings"
 
@@ -30,7 +29,10 @@ func (s *Sender) MakeMessage(ps []*Profile) (msg string) {
 		if p.Batting.DailyResult != nil {
 			msg += makeBattingSummary(p)
 		}
+		msg += fmt.Sprintln(" ")
 	}
+	msg += fmt.Sprintln("以上")
+
 	return msg
 }
 
@@ -39,16 +41,15 @@ func makeBattingSummary(p *Profile) (msg string) {
 	msg += fmt.Sprintln("【打撃】")
 
 	// 今日の記録
-	msg += fmt.Sprintln("<本日>")
-	msg += fmt.Sprintf("%s打数 %s安打 %s本塁打\n%s打点 %s盗塁 %s三振 %s四球\n",
+	msg += fmt.Sprintf("<%s>\n", p.Batting.Date)
+	msg += fmt.Sprintf("%s打席 %s安打 %s本塁打\n%s打点 %s盗塁 %s三振 %s四球\n",
 		r["AB"], r["H"], r["HR"], r["RBI"], r["SB"], r["SO"], r["BB"])
 
 	// シーズンの記録
 	sum := p.Batting.YearSummary
-	log.Println(p.Batting.YearSummary)
 	msg += fmt.Sprintln("<年間>")
-	msg += fmt.Sprintf("打率%s %s安打 %s本塁打\n%s打点 %s盗塁 %s三振\n",
-		sum["G"], sum["H"], sum["HR"], sum["RBI"], sum["SB"], sum["SO"])
+	msg += fmt.Sprintf("打率%s %s本塁打 %s打点\n%s盗塁 OPS%s\n",
+		sum["AVG"], sum["HR"], sum["RBI"], sum["SB"], sum["OPS"])
 
 	return
 }
@@ -58,7 +59,7 @@ func makePitchingSummary(p *Profile) (msg string) {
 	msg += fmt.Sprintln("【投球】")
 
 	// 今日の記録
-	msg += fmt.Sprintln("<本日>")
+	msg += fmt.Sprintf("<%s>\n", p.Pitching.Date)
 	msg += fmt.Sprintf("%s回 %s失点 %s奪三振\n%s四球 %s被安打\n",
 		r["IP"], r["ER"], r["SO"], r["BB"], r["H"])
 
@@ -91,12 +92,9 @@ func (s *Sender) Send(msgStr string) error {
 	}
 
 	msg := linebot.NewTextMessage(msgStr)
-	log.Println(msgStr)
 	if _, err := bot.BroadcastMessage(msg).Do(); err != nil {
 		return fmt.Errorf("error in send message by line bot: %w", err)
 	}
 
 	return nil
 }
-
-

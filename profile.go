@@ -2,7 +2,6 @@ package function
 
 import (
 	"fmt"
-	"log"
 	"strconv"
 	"strings"
 	"time"
@@ -31,9 +30,9 @@ func (c *Crawler) GetUpdateInfo(ps []*Player) ([]*Profile, error) {
 		}
 		if p.PlayedThisYear(profile) {
 			if p.PlayedToday(profile) {
-				// if p.IsTwoWayPlayer(profile) {
-				// 	excludeNotLatesStats(profile)
-				// }
+				if p.IsTwoWayPlayer(profile) {
+					excludeNotLatesStats(profile)
+				}
 				profileList = append(profileList, profile)
 			}
 		}
@@ -93,7 +92,7 @@ func (c *Crawler) Fetch(p *Player) (*Profile, error) {
 		return nil, fmt.Errorf("error in get site resource: %w", err)
 	}
 
-	return pickProfile(doc.Find("sectiopro.section-container"), p), nil
+	return pickProfile(doc.Find("section.section-container"), p), nil
 }
 
 func pickProfile(data *goquery.Selection, p *Player) *Profile {
@@ -115,16 +114,16 @@ func excludeNotLatesStats(pro *Profile) {
 	now := getTimeJST()
 	latestGame := time.Date(now.Year(), now.Month(), now.Day()-1, 0, 0, 0, 0, time.Local)
 
-	if pro.Pitching.Date != "" {
+	if pro.Pitching.DailyResult != nil {
 		pitDate := convertToDate(pro.Pitching.Date, now)
-		if pitDate.Unix() >= latestGame.Unix() {
+		if pitDate.Unix() < latestGame.Unix() {
 			pro.Pitching = Stats{}
 		}
 	}
 
-	if pro.Batting.Date != "" {
+	if pro.Batting.DailyResult != nil {
 		batDate := convertToDate(pro.Batting.Date, now)
-		if batDate.Unix() >= latestGame.Unix() {
+		if batDate.Unix() < latestGame.Unix() {
 			pro.Batting = Stats{}
 		}
 	}
@@ -147,7 +146,6 @@ func extractSummary(data *goquery.Selection) map[string]string {
 		value := row.Find(fmt.Sprintf("td.col-%d.row-0 > span", i)).Text()
 		summary[topic] = value
 	}
-	log.Println(summary)
 
 	return summary
 }
@@ -172,6 +170,5 @@ func extractDailyResult(data *goquery.Selection) (string, map[string]string) {
 		result[topic] = value
 	}
 
-	log.Println(result)
 	return date, result
 }
