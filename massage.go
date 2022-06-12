@@ -3,15 +3,15 @@ package function
 import (
 	"fmt"
 	"os"
-	"strconv"
 	"strings"
 
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
+// LINE Message API
 var (
-	secret = os.Getenv("LINE_BOT_CHANNEL_SECRET")
-	token  = os.Getenv("LINE_BOT_CHANNEL_TOKEN")
+	lineSecret = os.Getenv("LINE_BOT_CHANNEL_SECRET")
+	lineToken  = os.Getenv("LINE_BOT_CHANNEL_TOKEN")
 )
 
 type Sender struct{}
@@ -83,36 +83,36 @@ func makePitchingSummary(p *Profile) (msg string) {
 	return
 }
 
-func (s *Sender) MakeTitleCompetitorSummary(ts []*Title) (msg string) {
-	a := "-------- ア・リーグ --------\n"
-	n := "-------- ナ・リーグ --------\n"
-	for _, t := range ts {
-		if t.League == "ア・リーグ" {
-			a += SetData(t)
-		} else {
-			n += SetData(t)
-		}
-	}
-	msg = a + n
-	return msg
-}
+// func (s *Sender) MakeTitleCompetitorSummary(ts []*Title) (msg string) {
+// 	a := "-------- ア・リーグ --------\n"
+// 	n := "-------- ナ・リーグ --------\n"
+// 	for _, t := range ts {
+// 		if t.League == "ア・リーグ" {
+// 			a += SetData(t)
+// 		} else {
+// 			n += SetData(t)
+// 		}
+// 	}
+// 	msg = a + n
+// 	return msg
+// }
 
-func SetData(t *Title) string {
-	msg := fmt.Sprintf("【%s】\n", t.Category)
-	for _, r := range t.Records {
-		rank, _ := strconv.Atoi(r.Rank)
-		if rank < 4 {
-			msg += fmt.Sprintf("%s. %s %s\n", r.Rank, r.Name, r.Stats)
-		}
-	}
-	msg += fmt.Sprintln(" ")
-	return msg
-}
+// func SetData(t *Title) string {
+// 	msg := fmt.Sprintf("【%s】\n", t.Category)
+// 	for _, r := range t.Records {
+// 		rank, _ := strconv.Atoi(r.Rank)
+// 		if rank < 4 {
+// 			msg += fmt.Sprintf("%s. %s %s\n", r.Rank, r.Name, r.Stats)
+// 		}
+// 	}
+// 	msg += fmt.Sprintln(" ")
+// 	return msg
+// }
 
-func (s *Sender) Send(msgStr string) error {
+func (s *Sender) SendLINE(msgStr string) error {
 	bot, err := linebot.New(
-		secret,
-		token)
+		lineSecret,
+		lineToken)
 
 	if err != nil {
 		return fmt.Errorf("error in new line bot: %w", err)
@@ -125,3 +125,19 @@ func (s *Sender) Send(msgStr string) error {
 
 	return nil
 }
+
+// func (s *Sender) SendTwitter(msgStr string) error {
+// 	bot := NewTwitterBot()
+// 	_, err := bot.PostTweet(msgStr, nil)
+// 	if err != nil {
+// 		return err
+// 	}
+// 	return nil
+// }
+
+// func NewTwitterBot() *anaconda.TwitterApi {
+// 	anaconda.SetConsumerKey("API Key")
+// 	anaconda.SetConsumerSecret("API Secret")
+// 	api := anaconda.NewTwitterApi("Access Token", "Access Token Secret")
+// 	return api
+// }

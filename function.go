@@ -6,13 +6,12 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"time"
 )
 
 var (
-	bucket    = os.Getenv("GCS_BUCKET_NAME")
-	object    = os.Getenv("GCS_OBJECT_NAME")
-	titlePage = os.Getenv("MLB_TITLE_COMPETITON_PAGE_URL")
+	bucket = os.Getenv("GCS_BUCKET_NAME")
+	object = os.Getenv("GCS_OBJECT_NAME")
+	// titlePage = os.Getenv("MLB_TITLE_COMPETITION_PAGE_URL")
 )
 
 func Function(w http.ResponseWriter, r *http.Request) {
@@ -40,20 +39,8 @@ func Function(w http.ResponseWriter, r *http.Request) {
 	s := NewSender()
 	msg := s.MakeMessage(newsList)
 
-	if err := s.Send(msg); err != nil {
+	if err := s.SendLINE(msg); err != nil {
 		log.Fatalf("error in send message by line bot: %w", err)
-	}
-
-	if time.Now().Weekday() == time.Sunday {
-		titleList, err := c.GetTitleCompetitor(titlePage)
-		if err != nil {
-			log.Fatalf("error in get title competitor: %w", err)
-		}
-
-		msg := s.MakeTitleCompetitorSummary(titleList)
-		if err := s.Send(msg); err != nil {
-			log.Fatalf("error in send message by line bot: %w", err)
-		}
 	}
 
 	log.Println("Success")

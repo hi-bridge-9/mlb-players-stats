@@ -49,45 +49,45 @@ func (c *Crawler) Fetch(p *Player) (*Profile, error) {
 	return pickProfile(doc.Find("section.section-container"), p), nil
 }
 
-func (c *Crawler) GetTitleCompetitor(url string) ([]*Title, error) {
-	doc, err := goquery.NewDocument(url)
-	if err != nil {
-		return nil, fmt.Errorf("error in get site resource: %w", err)
-	}
+// func (c *Crawler) GetTitleCompetitor(url string) ([]*Title, error) {
+// 	doc, err := goquery.NewDocument(url)
+// 	if err != nil {
+// 		return nil, fmt.Errorf("error in get site resource: %w", err)
+// 	}
 
-	var ts []*Title
-	content := doc.Find("div.tracked_mods")
-	content.Find("section.bb-splits__item").Each(func(i int, item *goquery.Selection) {
-		t := SetTitle(item, i)
-		// log.Printf("title: %v", t)
-		ts = append(ts, t)
-	})
+// 	var ts []*Title
+// 	content := doc.Find("div.tracked_mods")
+// 	content.Find("section.bb-splits__item").Each(func(i int, item *goquery.Selection) {
+// 		t := SetTitle(item, i)
+// 		// log.Printf("title: %v", t)
+// 		ts = append(ts, t)
+// 	})
 
-	return ts, nil
-}
+// 	return ts, nil
+// }
 
-func SetTitle(item *goquery.Selection, i int) *Title {
-	var t Title
-	if i%2 == 0 {
-		t.League = "ア・リーグ"
-	} else {
-		t.League = "ナ・リーグ"
-	}
-	t.Category = item.Find(".bb-head03 > h1").Text()
-	item.Find("table > tbody > tr.bb-splitsTable__row").Each(func(_ int, table *goquery.Selection) {
-		r := SetRecord(table)
-		t.Records = append(t.Records, r)
-	})
-	return &t
-}
+// func SetTitle(item *goquery.Selection, i int) *Title {
+// 	var t Title
+// 	if i%2 == 0 {
+// 		t.League = "ア・リーグ"
+// 	} else {
+// 		t.League = "ナ・リーグ"
+// 	}
+// 	t.Category = item.Find(".bb-head03 > h1").Text()
+// 	item.Find("table > tbody > tr.bb-splitsTable__row").Each(func(_ int, table *goquery.Selection) {
+// 		r := SetRecord(table)
+// 		t.Records = append(t.Records, r)
+// 	})
+// 	return &t
+// }
 
-func SetRecord(table *goquery.Selection) *Record {
-	var r Record
-	r.Rank = table.Find("td.bb-splitsTable__data.bb-splitsTable__data--rank").Text()
-	r.Name = table.Find(`td.bb-splitsTable__data.bb-splitsTable__data--text > a[data-ylk="slk:player"]`).Text()
-	r.Stats = table.Find("td.bb-splitsTable__data.bb-splitsTable__data--score").Text()
-	return &r
-}
+// func SetRecord(table *goquery.Selection) *Record {
+// 	var r Record
+// 	r.Rank = table.Find("td.bb-splitsTable__data.bb-splitsTable__data--rank").Text()
+// 	r.Name = table.Find(`td.bb-splitsTable__data.bb-splitsTable__data--text > a[data-ylk="slk:player"]`).Text()
+// 	r.Stats = table.Find("td.bb-splitsTable__data.bb-splitsTable__data--score").Text()
+// 	return &r
+// }
 
 func (p *Player) IsTwoWayPlayer(pro *Profile) bool {
 	return pro.Pitching.Date != "" && pro.Batting.Date != ""
