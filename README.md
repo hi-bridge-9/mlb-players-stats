@@ -44,14 +44,6 @@ sequenceDiagram
     sh deploy.sh
     ```
 
-## ローカルテスト
-1. ./cmdディレクトリに移動する
-2. Goのmainファイルを実行する
-    ```
-    go run main.go
-    ```
-
-
 ## スクレイピング利用について
 - 利用規約によると、個人的な利用は問題ないと記載されている
   - 参考: https://www.mlb.com/official-information/terms-of-use
