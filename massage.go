@@ -43,7 +43,7 @@ func makeBattingSummary(p *Profile) (msg string) {
 
 	// 今日の記録
 	msg += fmt.Sprintf("<%s>\n", p.Batting.Date)
-	msg += fmt.Sprintf("%s打席 %s安打 %s本塁打\n%s打点 %s盗塁 %s三振 %s四球\n",
+	msg += fmt.Sprintf("%s打数 %s安打 %s本塁打\n%s打点 %s盗塁 %s三振 %s四球\n",
 		r["AB"], r["H"], r["HR"], r["RBI"], r["SB"], r["SO"], r["BB"])
 
 	// シーズンの記録
