@@ -32,7 +32,7 @@ func (s *Sender) MakeMessage(ps []*Profile) (msg string) {
 		}
 		msg += fmt.Sprintln(" ")
 	}
-	msg += fmt.Sprintln("以上")
+	msg += fmt.Sprintln("fin.")
 
 	return msg
 }
@@ -83,31 +83,6 @@ func makePitchingSummary(p *Profile) (msg string) {
 	return
 }
 
-// func (s *Sender) MakeTitleCompetitorSummary(ts []*Title) (msg string) {
-// 	a := "-------- ア・リーグ --------\n"
-// 	n := "-------- ナ・リーグ --------\n"
-// 	for _, t := range ts {
-// 		if t.League == "ア・リーグ" {
-// 			a += SetData(t)
-// 		} else {
-// 			n += SetData(t)
-// 		}
-// 	}
-// 	msg = a + n
-// 	return msg
-// }
-
-// func SetData(t *Title) string {
-// 	msg := fmt.Sprintf("【%s】\n", t.Category)
-// 	for _, r := range t.Records {
-// 		rank, _ := strconv.Atoi(r.Rank)
-// 		if rank < 4 {
-// 			msg += fmt.Sprintf("%s. %s %s\n", r.Rank, r.Name, r.Stats)
-// 		}
-// 	}
-// 	msg += fmt.Sprintln(" ")
-// 	return msg
-// }
 
 func (s *Sender) SendLINE(msgStr string) error {
 	bot, err := linebot.New(
@@ -125,19 +100,3 @@ func (s *Sender) SendLINE(msgStr string) error {
 
 	return nil
 }
-
-// func (s *Sender) SendTwitter(msgStr string) error {
-// 	bot := NewTwitterBot()
-// 	_, err := bot.PostTweet(msgStr, nil)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	return nil
-// }
-
-// func NewTwitterBot() *anaconda.TwitterApi {
-// 	anaconda.SetConsumerKey("API Key")
-// 	anaconda.SetConsumerSecret("API Secret")
-// 	api := anaconda.NewTwitterApi("Access Token", "Access Token Secret")
-// 	return api
-// }
