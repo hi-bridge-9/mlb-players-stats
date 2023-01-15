@@ -42,9 +42,15 @@
         "batting": false
     },
     {
-        "name": "有原 航平",
-        "url": "https://www.mlb.com/player/kohei-arihara-685503",
+        "name": "千賀 滉大",
+        "url": "https://www.mlb.com/player/kodai-senga-673540",
         "pitching": true,
         "batting": false
+    },
+    {
+        "name": "吉田 正尚",
+        "url": "https://www.mlb.com/player/masataka-yoshida-807799",
+        "pitching": false,
+        "batting": true
     }
 ]
