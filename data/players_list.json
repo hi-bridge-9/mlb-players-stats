@@ -30,12 +30,6 @@
         "batting": false
     },
     {
-        "name": "澤村 拓一",
-        "url": "https://www.mlb.com/player/hirokazu-sawamura-617228",
-        "pitching": true,
-        "batting": false
-    },
-    {
         "name": "前田 健太",
         "url": "https://www.mlb.com/es/player/kenta-maeda-628317",
         "pitching": true,
@@ -52,5 +46,11 @@
         "url": "https://www.mlb.com/player/masataka-yoshida-807799",
         "pitching": false,
         "batting": true
+    },
+    {
+        "name": "藤浪 晋太郎",
+        "url": "https://www.mlb.com/player/shintaro-fujinami-660261",
+        "pitching": true,
+        "batting": false
     }
 ]
